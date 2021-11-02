@@ -17,6 +17,11 @@ public class TripController {
 
     @GetMapping("/all")
     public List<Trip> getAllTrips(){
-        return  tripRepository.findAll();
+        return  tripRepository.findAllTripsAfterNow();
+    }
+
+    @GetMapping("/archive")
+    public List<Trip> getArchiveTrips(){
+        return  tripRepository.findAllTripsBeforeNow();
     }
 }

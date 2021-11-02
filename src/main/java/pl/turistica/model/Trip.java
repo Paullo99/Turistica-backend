@@ -11,9 +11,14 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String place;
-    private LocalDate tripBeginDate;
-    private LocalDate tripEndDate;
+    private String tripType;
+    private LocalDate beginDate;
+    private LocalDate endDate;
+    private int pricePerPerson;
+    private int enrolledPeople;
+    private int limit;
+    private String description;
+    private byte[] exampleImage;
 
     public int getId() {
         return id;
@@ -31,27 +36,67 @@ public class Trip {
         this.name = name;
     }
 
-    public String getPlace() {
-        return place;
+    public String getTripType() {
+        return tripType;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setTripType(String tripType) {
+        this.tripType = tripType;
     }
 
-    public LocalDate getTripBeginDate() {
-        return tripBeginDate;
+    public LocalDate getBeginDate() {
+        return beginDate;
     }
 
-    public void setTripBeginDate(LocalDate tripBeginDate) {
-        this.tripBeginDate = tripBeginDate;
+    public void setBeginDate(LocalDate beginDate) {
+        this.beginDate = beginDate;
     }
 
-    public LocalDate getTripEndDate() {
-        return tripEndDate;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    public void setTripEndDate(LocalDate tripEndDate) {
-        this.tripEndDate = tripEndDate;
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public int getPricePerPerson() {
+        return pricePerPerson;
+    }
+
+    public void setPricePerPerson(int pricePerPerson) {
+        this.pricePerPerson = pricePerPerson;
+    }
+
+    public int getEnrolledPeople() {
+        return enrolledPeople;
+    }
+
+    public void setEnrolledPeople(int enrolledPeople) {
+        this.enrolledPeople = enrolledPeople;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public byte[] getExampleImage() {
+        return exampleImage;
+    }
+
+    public void setExampleImage(byte[] exampleImage) {
+        this.exampleImage = exampleImage;
     }
 }
