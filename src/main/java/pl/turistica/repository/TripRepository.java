@@ -3,6 +3,7 @@ package pl.turistica.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import pl.turistica.dto.TripGeneralInfoDTO;
 import pl.turistica.model.Trip;
 
 import java.util.List;
@@ -12,11 +13,17 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
 
     List<Trip> findAll();
 
-    @Query(value="SELECT * FROM Trip t WHERE t.begin_date < curdate() ORDER BY t.begin_date DESC", nativeQuery = true)
-    List<Trip> findAllTripsBeforeNow();
+    @Query("SELECT new pl.turistica.dto.TripGeneralInfoDTO(t.id, t.name, t.tripType, t.beginDate, t.endDate, t.pricePerPerson) " +
+            "FROM Trip t " +
+            "WHERE t.beginDate >= curdate() " +
+            "ORDER BY t.beginDate")
+    List<TripGeneralInfoDTO> findTripsAfterToday();
 
-    @Query(value="SELECT * FROM Trip t WHERE t.begin_date >= curdate() ORDER BY t.begin_date", nativeQuery = true)
-    List<Trip> findAllTripsAfterNow();
+    @Query("SELECT new pl.turistica.dto.TripGeneralInfoDTO(t.id, t.name, t.tripType, t.beginDate, t.endDate, t.pricePerPerson) " +
+            "FROM Trip t " +
+            "WHERE t.beginDate < curdate() " +
+            "ORDER BY t.beginDate")
+    List<TripGeneralInfoDTO> findTripsBeforeToday();
 
-    List<Trip> findTripById(int id);
+    Trip findTripById(int id);
 }
