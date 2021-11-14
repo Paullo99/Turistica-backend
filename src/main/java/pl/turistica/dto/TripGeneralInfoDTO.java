@@ -1,5 +1,7 @@
 package pl.turistica.dto;
 
+import pl.turistica.model.TripType;
+
 import java.time.LocalDate;
 
 public class TripGeneralInfoDTO {
@@ -12,10 +14,10 @@ public class TripGeneralInfoDTO {
 
     public TripGeneralInfoDTO() {}
 
-    public TripGeneralInfoDTO(int id, String name, String tripType, LocalDate beginDate, LocalDate endDate, int pricePerPerson) {
+    public TripGeneralInfoDTO(int id, String name, TripType tripType, LocalDate beginDate, LocalDate endDate, int pricePerPerson) {
         this.id = id;
         this.name = name;
-        this.tripType = tripType;
+        this.tripType = tripType.getName();
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.pricePerPerson = pricePerPerson;

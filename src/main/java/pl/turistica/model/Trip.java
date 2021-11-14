@@ -11,7 +11,10 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String tripType;
+
+    @ManyToOne
+    private TripType tripType;
+
     private LocalDate beginDate;
     private LocalDate endDate;
     private int pricePerPerson;
@@ -36,11 +39,11 @@ public class Trip {
         this.name = name;
     }
 
-    public String getTripType() {
+    public TripType getTripType() {
         return tripType;
     }
 
-    public void setTripType(String tripType) {
+    public void setTripType(TripType tripType) {
         this.tripType = tripType;
     }
 
