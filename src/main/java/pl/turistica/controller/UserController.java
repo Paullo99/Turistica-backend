@@ -20,11 +20,6 @@ public class UserController {
     @Autowired
     private RoleRepository roleRepository;
 
-    @GetMapping("/test")
-    public int getShit(){
-        return userRepository.countAllByEmail("test@test.pl");
-    }
-
     @PostMapping("/register")
     public ResponseEntity<?> registerNewUser(@RequestBody User user){
         user.setRole(roleRepository.getById(1));
