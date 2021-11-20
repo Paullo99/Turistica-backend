@@ -8,4 +8,5 @@ import pl.turistica.model.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     public int countAllByEmail(String email);
+    public User findByEmail(String email);
 }
