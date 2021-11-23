@@ -29,7 +29,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        System.out.println(this.user.getPassword());
         return this.user.getPassword();
     }
 
