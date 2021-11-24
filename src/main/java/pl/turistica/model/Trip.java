@@ -21,7 +21,7 @@ public class Trip {
     private int enrolledPeople;
     private int limit;
     private String description;
-    private byte[] exampleImage;
+    private String map;
 
     public int getId() {
         return id;
@@ -95,11 +95,11 @@ public class Trip {
         this.description = description;
     }
 
-    public byte[] getExampleImage() {
-        return exampleImage;
+    public String getMap() {
+        return map;
     }
 
-    public void setExampleImage(byte[] exampleImage) {
-        this.exampleImage = exampleImage;
+    public void setMap(String map) {
+        this.map = map;
     }
 }
