@@ -19,9 +19,35 @@ public class Trip {
     private LocalDate endDate;
     private int pricePerPerson;
     private int enrolledPeople;
-    private int limit;
+    private int peopleLimit;
     private String description;
     private String map;
+
+    public Trip() {}
+
+    public Trip(String name, TripType tripType, LocalDate beginDate, LocalDate endDate, int pricePerPerson, int limit, String description, String map) {
+        this.name = name;
+        this.tripType = tripType;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+        this.pricePerPerson = pricePerPerson;
+        this.peopleLimit = limit;
+        this.description = description;
+        this.map = map;
+    }
+
+    public Trip(int id, String name, TripType tripType, LocalDate beginDate, LocalDate endDate, int pricePerPerson, int enrolledPeople, int limit, String description, String map) {
+        this.id = id;
+        this.name = name;
+        this.tripType = tripType;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+        this.pricePerPerson = pricePerPerson;
+        this.enrolledPeople = enrolledPeople;
+        this.peopleLimit = limit;
+        this.description = description;
+        this.map = map;
+    }
 
     public int getId() {
         return id;
@@ -79,12 +105,12 @@ public class Trip {
         this.enrolledPeople = enrolledPeople;
     }
 
-    public int getLimit() {
-        return limit;
+    public int getPeopleLimit() {
+        return peopleLimit;
     }
 
-    public void setLimit(int limit) {
-        this.limit = limit;
+    public void setPeopleLimit(int limit) {
+        this.peopleLimit = limit;
     }
 
     public String getDescription() {
@@ -102,4 +128,6 @@ public class Trip {
     public void setMap(String map) {
         this.map = map;
     }
+
+
 }
