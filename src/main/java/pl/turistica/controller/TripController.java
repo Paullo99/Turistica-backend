@@ -12,6 +12,7 @@ import pl.turistica.model.User;
 import pl.turistica.repository.TripRepository;
 import pl.turistica.repository.TripTypeRepository;
 import pl.turistica.repository.UserRepository;
+import pl.turistica.service.TokenService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,15 +28,16 @@ public class TripController {
     private UserRepository userRepository;
 
     @Autowired
+    private TokenService tokenService;
+
+    @Autowired
     private TripTypeRepository tripTypeRepository;
 
     @PostMapping("/trips/enroll")
     public ResponseEntity<?> enrollOrCancel(@RequestHeader("Authorization") String authorizationHeader,
                                             @RequestParam(value = "tripId") int tripId) {
-        String token = authorizationHeader.split(" ")[1];
-        String email = new String(Base64.decodeBase64(token)).split(":")[0];
 
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(tokenService.getEmailFromAuthorizationHeader(authorizationHeader));
 
         if (user != null) {
             Trip trip = tripRepository.findTripById(tripId);
