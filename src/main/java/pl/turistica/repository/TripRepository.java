@@ -34,4 +34,7 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
     List<TripGeneralInfoDTO> findTripsBetweenTwoDates(@Param("beginDate") LocalDate beginDate, @Param("endDate") LocalDate endDate);
 
     Trip findTripById(int id);
+
+    @Query(value = "SELECT count(trip_id) FROM user_trip WHERE trip_id = ?1", nativeQuery = true)
+    int countEnrolledPeopleByTripId(int tripId);
 }

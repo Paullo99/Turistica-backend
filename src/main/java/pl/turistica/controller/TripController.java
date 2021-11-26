@@ -25,34 +25,7 @@ public class TripController {
     private TripRepository tripRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
     private TripTypeRepository tripTypeRepository;
-
-    @PostMapping("/trips/enroll")
-    public ResponseEntity<?> enrollOrCancel(@RequestHeader("Authorization") String authorizationHeader,
-                                            @RequestParam(value = "tripId") int tripId) {
-
-        User user = userRepository.findByEmail(tokenService.getEmailFromAuthorizationHeader(authorizationHeader));
-
-        if (user != null) {
-            Trip trip = tripRepository.findTripById(tripId);
-            if (trip != null) {
-                if (trip.getUsers().contains(user)) {
-                    trip.getUsers().remove(user);
-                } else {
-                    trip.getUsers().add(user);
-                }
-                tripRepository.save(trip);
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
-    }
 
     @GetMapping("/trips/all")
     public List<TripGeneralInfoDTO> getAllTripsFiltered(
