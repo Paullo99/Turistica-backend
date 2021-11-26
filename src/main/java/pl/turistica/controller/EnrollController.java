@@ -10,6 +10,7 @@ import pl.turistica.model.Trip;
 import pl.turistica.model.User;
 import pl.turistica.repository.TripRepository;
 import pl.turistica.repository.UserRepository;
+import pl.turistica.service.EmailService;
 import pl.turistica.service.TokenService;
 
 import java.util.List;
@@ -27,6 +28,9 @@ public class EnrollController {
     @Autowired
     TokenService tokenService;
 
+    @Autowired
+    EmailService emailService;
+
     @PostMapping("/trips/enroll")
     public ResponseEntity<?> enrollOrCancel(@RequestHeader("Authorization") String authorizationHeader,
                                             @RequestParam(value = "tripId") int tripId) {
@@ -38,9 +42,12 @@ public class EnrollController {
             if (trip != null) {
                 if (trip.getUsers().contains(user)) {
                     trip.getUsers().remove(user);
+                    new Thread(() -> emailService.sendMessage(user.getEmail(), "Zostałeś wypisany z wyjazdu", "Sorki, ale wypisałeś się z wyjazdu :(")).start();
                 } else{
                     if (tripRepository.countEnrolledPeopleByTripId(tripId) < trip.getPeopleLimit()){
                         trip.getUsers().add(user);
+                        new Thread(() -> emailService.sendMessage(user.getEmail(), "Zapisałeś się na wyjazd!", "Wohoo :)")).start();
+
                     }
                     else{
                         return new ResponseEntity<>(HttpStatus.CONFLICT);
