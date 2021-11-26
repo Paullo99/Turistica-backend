@@ -54,7 +54,7 @@ public class TripController {
     @PostMapping("/create-trip")
     public ResponseEntity<?> createNewTrip(@RequestBody TripDTO trip) {
         Trip tripToInsert = new Trip(trip.getName(), tripTypeRepository.findTripTypeById(trip.getTripType()),
-                trip.getBeginDate(), trip.getEndDate(), trip.getPricePerPerson(), trip.getLimit(), trip.getDescription(),
+                trip.getBeginDate(), trip.getEndDate(), trip.getPricePerPerson(), trip.getPeopleLimit(), trip.getDescription(),
                 trip.getMap());
 
         if (tripRepository.save(tripToInsert) != null)

@@ -9,7 +9,7 @@ public class TripDTO {
     private LocalDate beginDate;
     private LocalDate endDate;
     private int pricePerPerson;
-    private int limit;
+    private int peopleLimit;
     private String description;
     private String map;
 
@@ -53,12 +53,12 @@ public class TripDTO {
         this.pricePerPerson = pricePerPerson;
     }
 
-    public int getLimit() {
-        return limit;
+    public int getPeopleLimit() {
+        return peopleLimit;
     }
 
-    public void setLimit(int limit) {
-        this.limit = limit;
+    public void setPeopleLimit(int peopleLimit) {
+        this.peopleLimit = peopleLimit;
     }
 
     public String getDescription() {

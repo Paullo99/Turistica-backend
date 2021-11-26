@@ -38,13 +38,13 @@ public class Trip {
 
     public Trip() {}
 
-    public Trip(String name, TripType tripType, LocalDate beginDate, LocalDate endDate, int pricePerPerson, int limit, String description, String map) {
+    public Trip(String name, TripType tripType, LocalDate beginDate, LocalDate endDate, int pricePerPerson, int peopleLimit, String description, String map) {
         this.name = name;
         this.tripType = tripType;
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.pricePerPerson = pricePerPerson;
-        this.peopleLimit = limit;
+        this.peopleLimit = peopleLimit;
         this.description = description;
         this.map = map;
     }
@@ -109,8 +109,8 @@ public class Trip {
         return peopleLimit;
     }
 
-    public void setPeopleLimit(int limit) {
-        this.peopleLimit = limit;
+    public void setPeopleLimit(int peopleLimit) {
+        this.peopleLimit = peopleLimit;
     }
 
     public String getDescription() {

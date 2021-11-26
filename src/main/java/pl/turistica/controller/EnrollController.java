@@ -38,14 +38,19 @@ public class EnrollController {
             if (trip != null) {
                 if (trip.getUsers().contains(user)) {
                     trip.getUsers().remove(user);
-                } else {
-                    trip.getUsers().add(user);
+                } else{
+                    if (tripRepository.countEnrolledPeopleByTripId(tripId) < trip.getPeopleLimit()){
+                        trip.getUsers().add(user);
+                    }
+                    else{
+                        return new ResponseEntity<>(HttpStatus.CONFLICT);
+                    }
                 }
                 tripRepository.save(trip);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/trips/enrollment-info")
