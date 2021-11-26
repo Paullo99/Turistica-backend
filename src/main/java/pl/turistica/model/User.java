@@ -1,6 +1,10 @@
 package pl.turistica.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="user")
@@ -20,6 +24,9 @@ public class User {
 
     @ManyToOne
     private Role role;
+
+    @ManyToMany(mappedBy = "users")
+    Set<Trip> trips = new HashSet<>();
 
     public User() {}
 
@@ -114,6 +121,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Set<Trip> getTrips() {
+        return trips;
+    }
+
+    public void setTrips(Set<Trip> trips) {
+        this.trips = trips;
     }
 
     @Override

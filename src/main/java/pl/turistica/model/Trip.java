@@ -1,7 +1,11 @@
 package pl.turistica.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="trip")
@@ -23,6 +27,15 @@ public class Trip {
     private String description;
     private String map;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_trip",
+            joinColumns = { @JoinColumn(name = "trip_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+    )
+    @JsonIgnore
+    private Set<User> users = new HashSet<>();
+
     public Trip() {}
 
     public Trip(String name, TripType tripType, LocalDate beginDate, LocalDate endDate, int pricePerPerson, int limit, String description, String map) {
@@ -31,19 +44,6 @@ public class Trip {
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.pricePerPerson = pricePerPerson;
-        this.peopleLimit = limit;
-        this.description = description;
-        this.map = map;
-    }
-
-    public Trip(int id, String name, TripType tripType, LocalDate beginDate, LocalDate endDate, int pricePerPerson, int enrolledPeople, int limit, String description, String map) {
-        this.id = id;
-        this.name = name;
-        this.tripType = tripType;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
-        this.pricePerPerson = pricePerPerson;
-        this.enrolledPeople = enrolledPeople;
         this.peopleLimit = limit;
         this.description = description;
         this.map = map;
@@ -129,5 +129,11 @@ public class Trip {
         this.map = map;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
 
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 }
