@@ -22,7 +22,6 @@ public class Trip {
     private LocalDate beginDate;
     private LocalDate endDate;
     private int pricePerPerson;
-    private int enrolledPeople;
     private int peopleLimit;
     private String description;
     private String map;
@@ -95,14 +94,6 @@ public class Trip {
 
     public void setPricePerPerson(int pricePerPerson) {
         this.pricePerPerson = pricePerPerson;
-    }
-
-    public int getEnrolledPeople() {
-        return enrolledPeople;
-    }
-
-    public void setEnrolledPeople(int enrolledPeople) {
-        this.enrolledPeople = enrolledPeople;
     }
 
     public int getPeopleLimit() {
