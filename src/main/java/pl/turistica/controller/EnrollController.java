@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://turistica.herokuapp.com")
 public class EnrollController {
 
     @Autowired

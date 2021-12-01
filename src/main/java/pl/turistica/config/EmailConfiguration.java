@@ -16,7 +16,7 @@ public class EmailConfiguration {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
         mailSender.setUsername("turistica.contact@gmail.com");
-        mailSender.setPassword("");
+        mailSender.setPassword("Inzynierka_2022");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

@@ -11,7 +11,7 @@ import pl.turistica.repository.UserRepository;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://turistica.herokuapp.com")
 public class UserController {
 
     @Autowired
