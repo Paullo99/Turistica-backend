@@ -1,11 +1,11 @@
 package pl.turistica.controller;
 
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.turistica.dto.EnrollmentDTO;
-import pl.turistica.dto.TripGeneralInfoDTO;
 import pl.turistica.model.Trip;
 import pl.turistica.model.User;
 import pl.turistica.repository.TripRepository;
@@ -13,7 +13,9 @@ import pl.turistica.repository.UserRepository;
 import pl.turistica.service.EmailService;
 import pl.turistica.service.TokenService;
 
-import java.util.List;
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.util.HashMap;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -40,13 +42,38 @@ public class EnrollController {
         if (user != null) {
             Trip trip = tripRepository.findTripById(tripId);
             if (trip != null) {
+                HashMap<String, Object> details = new HashMap<>();
+                details.put("firstName", user.getName());
+                details.put("lastName", user.getLastName());
+                details.put("tripName", trip.getName());
+                details.put("beginDate", trip.getBeginDate());
+                details.put("endDate", trip.getEndDate());
+                details.put("pricePerPerson", trip.getPricePerPerson());
+                details.put("tripId", tripId);
                 if (trip.getUsers().contains(user)) {
                     trip.getUsers().remove(user);
-                    new Thread(() -> emailService.sendMessage(user.getEmail(), "Zostałeś wypisany z wyjazdu", "Sorki, ale wypisałeś się z wyjazdu :(")).start();
+
+                    new Thread(() -> {
+                        try {
+                            emailService.sendMessage(user.getEmail(),
+                                    "Wypisałeś się z wyjazdu!", details,
+                                    "unsubscribe-email-template.ftl");
+                        } catch (MessagingException | IOException | TemplateException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
                 } else{
                     if (tripRepository.countEnrolledPeopleByTripId(tripId) < trip.getPeopleLimit()){
                         trip.getUsers().add(user);
-                        new Thread(() -> emailService.sendMessage(user.getEmail(), "Zapisałeś się na wyjazd!", "Wohoo :)")).start();
+                        new Thread(() -> {
+                            try {
+                                emailService.sendMessage(user.getEmail(),
+                                        "Zapisałeś się na wyjazd!", details,
+                                        "enroll-email-template.ftl");
+                            } catch (MessagingException | IOException | TemplateException e) {
+                                e.printStackTrace();
+                            }
+                        }).start();
 
                     }
                     else{
