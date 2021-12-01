@@ -11,6 +11,7 @@ import pl.turistica.model.User;
 import pl.turistica.repository.TripRepository;
 import pl.turistica.repository.UserRepository;
 import pl.turistica.service.EmailService;
+import pl.turistica.service.EnrollService;
 import pl.turistica.service.TokenService;
 
 import javax.mail.MessagingException;
@@ -28,76 +29,46 @@ public class EnrollController {
     TripRepository tripRepository;
 
     @Autowired
-    TokenService tokenService;
+    EnrollService enrollService;
 
     @Autowired
-    EmailService emailService;
+    TokenService tokenService;
 
     @PostMapping("/trips/enroll")
     public ResponseEntity<?> enrollOrCancel(@RequestHeader("Authorization") String authorizationHeader,
                                             @RequestParam(value = "tripId") int tripId) {
 
         User user = userRepository.findByEmail(tokenService.getEmailFromAuthorizationHeader(authorizationHeader));
-
-        if (user != null) {
-            Trip trip = tripRepository.findTripById(tripId);
-            if (trip != null) {
-                HashMap<String, Object> details = new HashMap<>();
-                details.put("firstName", user.getName());
-                details.put("lastName", user.getLastName());
-                details.put("tripName", trip.getName());
-                details.put("beginDate", trip.getBeginDate());
-                details.put("endDate", trip.getEndDate());
-                details.put("pricePerPerson", trip.getPricePerPerson());
-                details.put("tripId", tripId);
-                if (trip.getUsers().contains(user)) {
-                    trip.getUsers().remove(user);
-
-                    new Thread(() -> {
-                        try {
-                            emailService.sendMessage(user.getEmail(),
-                                    "Wypisałeś się z wyjazdu!", details,
-                                    "unsubscribe-email-template.ftl");
-                        } catch (MessagingException | IOException | TemplateException e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
-                } else{
-                    if (tripRepository.countEnrolledPeopleByTripId(tripId) < trip.getPeopleLimit()){
-                        trip.getUsers().add(user);
-                        new Thread(() -> {
-                            try {
-                                emailService.sendMessage(user.getEmail(),
-                                        "Zapisałeś się na wyjazd!", details,
-                                        "enroll-email-template.ftl");
-                            } catch (MessagingException | IOException | TemplateException e) {
-                                e.printStackTrace();
-                            }
-                        }).start();
-
-                    }
-                    else{
-                        return new ResponseEntity<>(HttpStatus.CONFLICT);
-                    }
+        Trip trip = tripRepository.findTripById(tripId);
+        if (user != null && trip != null) {
+            if (trip.getUsers().contains(user)) {
+                trip.getUsers().remove(user);
+                enrollService.sendEmailThread(user, trip, tripId, false);
+            } else {
+                if (tripRepository.countEnrolledPeopleByTripId(tripId) < trip.getPeopleLimit()) {
+                    trip.getUsers().add(user);
+                    enrollService.sendEmailThread(user, trip, tripId, true);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
                 }
-                tripRepository.save(trip);
-                return new ResponseEntity<>(HttpStatus.OK);
             }
+            tripRepository.save(trip);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/trips/enrollment-info")
-    public EnrollmentDTO getEnrollmentInfo(@RequestHeader(name="Authorization", required = false) String authorizationHeader,
-                                         @RequestParam(value = "tripId") int tripId) {
+    public EnrollmentDTO getEnrollmentInfo(@RequestHeader(name = "Authorization", required = false) String authorizationHeader,
+                                           @RequestParam(value = "tripId") int tripId) {
         boolean isEnrolled = false;
         int enrolledPeople = 0;
         Trip trip = tripRepository.findTripById(tripId);
-        if(trip!=null){
-            if(authorizationHeader!=null && !authorizationHeader.equals("")){
+        if (trip != null) {
+            if (authorizationHeader != null && !authorizationHeader.equals("")) {
                 User user = userRepository.findByEmail(tokenService.getEmailFromAuthorizationHeader(authorizationHeader));
-                if(user!=null){
-                    if(trip.getUsers().contains(user))
+                if (user != null) {
+                    if (trip.getUsers().contains(user))
                         isEnrolled = true;
                 }
             }
