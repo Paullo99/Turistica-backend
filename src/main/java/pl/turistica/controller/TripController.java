@@ -53,14 +53,29 @@ public class TripController {
 
     @PostMapping("/create-trip")
     public ResponseEntity<?> createNewTrip(@RequestBody TripDTO trip) {
+        System.out.println(trip.getDescription());
         Trip tripToInsert = new Trip(trip.getName(), tripTypeRepository.findTripTypeById(trip.getTripType()),
                 trip.getBeginDate(), trip.getEndDate(), trip.getPricePerPerson(), trip.getPeopleLimit(), trip.getDescription(),
                 trip.getMap());
 
-        if (tripRepository.save(tripToInsert) != null)
+        try {
+            tripRepository.save(tripToInsert);
             return new ResponseEntity<>(HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
+    }
+
+    @PutMapping("/edit-trip")
+    public ResponseEntity<?> editTrip(@RequestBody Trip trip) {
+        Trip oldTrip = tripRepository.findTripById(trip.getId());
+        trip.setUsers(oldTrip.getUsers());
+        try {
+            tripRepository.save(trip);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
