@@ -8,7 +8,7 @@ import pl.turistica.repository.UserRepository;
 import java.util.HashMap;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "https://turistica.herokuapp.com"})
 public class LoginController {
 
     @Autowired
