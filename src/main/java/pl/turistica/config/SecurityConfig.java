@@ -41,6 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/trips/enrollment-info*").permitAll()
                 .antMatchers("/create-trip").hasRole("GUIDE")
                 .antMatchers("/edit-trip").hasRole("GUIDE")
+                .antMatchers("/user-list").hasRole("ADMIN")
+                .antMatchers("/add-user").hasRole("ADMIN")
+                .antMatchers("/change-password").hasAnyRole("ADMIN", "USER", "GUIDE")
                 .and().csrf().disable();
     }
 }
