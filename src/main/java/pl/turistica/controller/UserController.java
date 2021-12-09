@@ -4,6 +4,7 @@ import freemarker.template.TemplateException;
 import net.bytebuddy.utility.RandomString;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -53,6 +54,35 @@ public class UserController {
         }
 
         return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    @PutMapping("/edit-user")
+    public ResponseEntity<?> editUser(@RequestBody UserForAdminDTO user) {
+
+        User userToUpdate = userRepository.findUserById(user.getId());
+        if(userToUpdate!=null){
+            userToUpdate.setEmail(user.getEmail());
+            userToUpdate.setRole(roleRepository.findByName(user.getRole()));
+            userToUpdate.setName(user.getName());
+            userToUpdate.setLastName(user.getLastName());
+            userToUpdate.setPhoneNumber(user.getPhoneNumber());
+            userRepository.save(userToUpdate);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    @DeleteMapping("/delete-user/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable int userId) {
+
+        User user = userRepository.findUserById(userId);
+        if(user!=null)
+            userRepository.delete(user);
+        else
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
     @GetMapping("/user-list")

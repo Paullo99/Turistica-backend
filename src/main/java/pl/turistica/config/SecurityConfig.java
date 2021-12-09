@@ -43,6 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/edit-trip").hasRole("GUIDE")
                 .antMatchers("/user-list").hasRole("ADMIN")
                 .antMatchers("/add-user").hasRole("ADMIN")
+                .antMatchers("/edit-user").hasRole("ADMIN")
+                .antMatchers("/delete-user/*").hasRole("ADMIN")
                 .antMatchers("/change-password").hasAnyRole("ADMIN", "USER", "GUIDE")
                 .and().csrf().disable();
     }
