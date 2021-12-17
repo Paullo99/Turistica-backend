@@ -3,7 +3,7 @@ package pl.turistica.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="role")
+@Table(name = "role")
 public class Role {
 
     @Id
@@ -11,7 +11,8 @@ public class Role {
     private int id;
     private String name;
 
-    public Role() {}
+    public Role() {
+    }
 
     public Role(int id, String name) {
         this.id = id;

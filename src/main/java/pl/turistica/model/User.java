@@ -1,13 +1,11 @@
 package pl.turistica.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
 
     @Id
@@ -21,14 +19,13 @@ public class User {
     private String city;
     private String postcode;
     private String phoneNumber;
-
     @ManyToOne
     private Role role;
-
     @ManyToMany(mappedBy = "users")
     Set<Trip> trips = new HashSet<>();
 
-    public User() {}
+    public User() {
+    }
 
     public User(String email, String password, String name, String lastName, String phoneNumber, Role role) {
         this.email = email;
@@ -39,7 +36,8 @@ public class User {
         this.role = role;
     }
 
-    public User(int id, String email, String password, String name, String lastName, String address, String city, String postcode, String phoneNumber, Role role) {
+    public User(int id, String email, String password, String name, String lastName,
+                String address, String city, String postcode, String phoneNumber, Role role) {
         this.id = id;
         this.email = email;
         this.password = password;

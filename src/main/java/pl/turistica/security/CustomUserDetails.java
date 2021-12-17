@@ -5,14 +5,16 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.turistica.model.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
 
     private User user;
     private List<GrantedAuthority> authorityList;
 
-    public CustomUserDetails(User user){
+    public CustomUserDetails(User user) {
         this.user = user;
 
         authorityList = new ArrayList<>();
@@ -20,7 +22,8 @@ public class CustomUserDetails implements UserDetails {
         authorityList.add(authority);
     }
 
-    public CustomUserDetails() {}
+    public CustomUserDetails() {
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

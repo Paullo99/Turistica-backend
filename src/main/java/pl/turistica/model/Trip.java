@@ -8,17 +8,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="trip")
+@Table(name = "trip")
 public class Trip {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-
-    @ManyToOne
-    private TripType tripType;
-
     private LocalDate beginDate;
     private LocalDate endDate;
     private int pricePerPerson;
@@ -26,16 +22,20 @@ public class Trip {
     private String description;
     private String map;
 
+    @ManyToOne
+    private TripType tripType;
+
     @ManyToMany
     @JoinTable(
             name = "user_trip",
-            joinColumns = { @JoinColumn(name = "trip_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+            joinColumns = {@JoinColumn(name = "trip_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
     @JsonIgnore
     private Set<User> users = new HashSet<>();
 
-    public Trip() {}
+    public Trip() {
+    }
 
     public Trip(String name, TripType tripType, LocalDate beginDate, LocalDate endDate, int pricePerPerson, int peopleLimit, String description, String map) {
         this.name = name;

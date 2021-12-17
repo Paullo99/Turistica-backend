@@ -37,7 +37,10 @@ public class EmailService {
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(htmlBody, true);
-        emailSender.send(message);
+        new Thread(() -> emailSender.send(message)).start();
     }
 
+    public void sendRegistrationMessage(String email) throws MessagingException, TemplateException, IOException {
+        sendMessage(email, "Potwierdzenie rejestracji", null, "register-email-template.ftl");
+    }
 }

@@ -10,9 +10,10 @@ public class UserForAdminDTO {
     private String role;
     private String phoneNumber;
 
-    public UserForAdminDTO(){}
+    public UserForAdminDTO() {
+    }
 
-    public UserForAdminDTO(User user){
+    public UserForAdminDTO(User user) {
         this.id = user.getId();
         this.name = user.getName();
         this.lastName = user.getLastName();

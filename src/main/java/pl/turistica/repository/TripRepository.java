@@ -2,7 +2,6 @@ package pl.turistica.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.turistica.dto.TripGeneralInfoDTO;
 import pl.turistica.model.Trip;
@@ -15,11 +14,18 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
 
     List<Trip> findAll();
 
+    Trip findTripById(int id);
+
+    @Query(value = "SELECT count(trip_id) FROM user_trip WHERE trip_id = ?1", nativeQuery = true)
+    int countEnrolledPeopleByTripId(int tripId);
+
     @Query("SELECT new pl.turistica.dto.TripGeneralInfoDTO(t.id, t.name, t.tripType, t.beginDate, t.endDate, t.pricePerPerson) " +
             "FROM Trip t " +
             "WHERE t.beginDate >= curdate() " +
             "ORDER BY t.beginDate")
     List<TripGeneralInfoDTO> findTripsAfterToday();
+
+
 
     @Query("SELECT new pl.turistica.dto.TripGeneralInfoDTO(t.id, t.name, t.tripType, t.beginDate, t.endDate, t.pricePerPerson) " +
             "FROM Trip t " +
@@ -31,10 +37,6 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             "FROM Trip t " +
             "WHERE t.beginDate >= :#{#beginDate} AND t.endDate <= :#{#endDate} " +
             "ORDER BY t.beginDate")
-    List<TripGeneralInfoDTO> findTripsBetweenTwoDates(@Param("beginDate") LocalDate beginDate, @Param("endDate") LocalDate endDate);
+    List<TripGeneralInfoDTO> findTripsBetweenTwoDates(LocalDate beginDate, LocalDate endDate);
 
-    Trip findTripById(int id);
-
-    @Query(value = "SELECT count(trip_id) FROM user_trip WHERE trip_id = ?1", nativeQuery = true)
-    int countEnrolledPeopleByTripId(int tripId);
-}
+}   

@@ -12,7 +12,8 @@ public class TripGeneralInfoDTO {
     private LocalDate endDate;
     private int pricePerPerson;
 
-    public TripGeneralInfoDTO() {}
+    public TripGeneralInfoDTO() {
+    }
 
     public TripGeneralInfoDTO(int id, String name, TripType tripType, LocalDate beginDate, LocalDate endDate, int pricePerPerson) {
         this.id = id;

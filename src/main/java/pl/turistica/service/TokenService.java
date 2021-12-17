@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 public class TokenService {
 
     public String getEmailFromAuthorizationHeader(String authorizationHeader){
-        String token = authorizationHeader.split(" ")[1];
-        return new String(Base64.decodeBase64(token)).split(":")[0];
+        if(authorizationHeader.contains(" ")){
+            String token = authorizationHeader.split(" ")[1];
+            return new String(Base64.decodeBase64(token)).split(":")[0];
+        }
+        return null;
     }
 }

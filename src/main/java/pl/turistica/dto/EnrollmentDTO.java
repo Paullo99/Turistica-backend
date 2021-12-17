@@ -7,7 +7,6 @@ public class EnrollmentDTO {
     private int enrolledPeople;
 
     public EnrollmentDTO() {
-
     }
 
     public EnrollmentDTO(boolean isEnrolled, int enrolledPeople) {
