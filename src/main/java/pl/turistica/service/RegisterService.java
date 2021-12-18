@@ -29,7 +29,7 @@ public class RegisterService {
     private EmailService emailService;
 
     public ResponseEntity<?> registerNewUser(User user) {
-        user.setRole(roleRepository.getById(1));
+        user.setRole(roleRepository.findByName("ROLE_USER"));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (!userRepository.existsUserByEmail(user.getEmail())) {
             userRepository.save(user);

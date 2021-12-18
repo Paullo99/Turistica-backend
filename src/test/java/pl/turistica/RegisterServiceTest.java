@@ -43,14 +43,13 @@ public class RegisterServiceTest {
     @Test
     void shouldRegisterNewUser() throws MessagingException, TemplateException, IOException {
         //given
-        final int roleUserId = 1;
         final String encodedPassword = "encodedPassword";
         final String roleName = "ROLE_USER";
         Role role = new Role();
         role.setName(roleName);
         User userToRegister = new User();
 
-        when(roleRepository.getById(roleUserId)).thenReturn(role);
+        when(roleRepository.findByName(roleName)).thenReturn(role);
         when(passwordEncoder.encode(userToRegister.getPassword())).thenReturn(encodedPassword);
         when(userRepository.existsUserByEmail(userToRegister.getEmail())).thenReturn(false);
 
@@ -68,13 +67,14 @@ public class RegisterServiceTest {
     @Test
     void shouldNotRegisterNewUser() throws MessagingException, TemplateException, IOException {
         //given
-        String encodedPassword = "encodedPassword";
+        final String encodedPassword = "encodedPassword";
+        final String roleName = "ROLE_USER";
         Role role = new Role();
-        role.setName("ROLE_USER");
+        role.setName(roleName);
         User userToRegister = new User();
 
         //when
-        when(roleRepository.getById(1)).thenReturn(role);
+        when(roleRepository.findByName(roleName)).thenReturn(role);
         when(passwordEncoder.encode(userToRegister.getPassword())).thenReturn(encodedPassword);
         when(userRepository.existsUserByEmail(userToRegister.getEmail())).thenReturn(true);
 
