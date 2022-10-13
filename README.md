@@ -43,4 +43,5 @@ Praca inżynierska.
 z wykorzystaniem platformy Heroku.
 - [Instrukcja programisty](https://github.com/Paullo99/turistica-backend/blob/master/turistica_instrukcja_programisty.pdf) zawiera najważniejsze kroki
 potrzebne do dalszej pracy nad projektem i rozwijania aplikacji Turistica.
-- [Instrukcja obsługi]() wraz z poglądowymi zrzutami ekranu znajduje się w README repozytorium [Turistica-frontend]().
+- [Instrukcja obsługi](https://github.com/Paullo99/turistica-frontend/blob/master/README.md#przyk%C5%82adowe-zrzuty-ekranu-z-dzia%C5%82ania-aplikacji) wraz z poglądowymi zrzutami ekranu znajduje się w README repozytorium [Turistica-frontend](https://github.com/Paullo99/turistica-frontend).
+
